@@ -26,7 +26,7 @@ const vader = {
 const luke = {
   type: 'Human',
   id: '1000',
-  name: delay('Luke Skywalker', 10000),
+  name: () => delay('Luke Skywalker', 3000),
   friends: ['1002', '1003', '2000', '2001'],
   appearsIn: [4, 5, 6],
   homePlanet: 'Tatooine',
@@ -40,7 +40,7 @@ const luke = {
 const han = {
   type: 'Human',
   id: '1002',
-  name: delay('Han Solo', 9000),
+  name: () => delay('Han Solo', 1000),
   friends: ['1000', '1003', '2001'],
   appearsIn: [4, 5, 6],
   soulmate: {
@@ -59,7 +59,7 @@ const han = {
 const leia = {
   type: 'Human',
   id: '1003',
-  name: delay('Leia Organa', 8000),
+  name: () => delay('Leia Organa', 1000),
   friends: ['1000', '1002', '2000', '2001'],
   appearsIn: [4, 5, 6],
   homePlanet: 'Alderaan',

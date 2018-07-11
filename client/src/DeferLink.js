@@ -50,7 +50,7 @@ class DeferLink extends ApolloLink {
           observer.next(this.result);
         },
         error: error => {
-          console.log(`error: ${JSON.stringify(error, null, 2)}`);
+          console.log(error);
           observer.error(error)
         },
         complete: () => {

@@ -1,28 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
-import { WebSocketLink } from 'apollo-link-ws';
-import { SubscriptionClient } from 'subscriptions-transport-ws';
-import { ApolloProvider, Query, Subscription } from 'react-apollo';
+import { createHttpLink } from 'apollo-link-http';
+import { ApolloProvider, Subscription } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { onError } from 'apollo-link-error';
 import { ApolloLink } from 'apollo-link';
 import gql from 'graphql-tag';
 import DeferLink from './DeferLink';
-
-const GRAPHQL_ENDPOINT = 'ws://localhost:4000/subs';
-
-const subClient = new SubscriptionClient(GRAPHQL_ENDPOINT, {
-  reconnect: true,
-});
-
-const consoleLink = new ApolloLink((operation, forward) => {
-  return forward(operation).map(data => {
-    // console.log(`data: ${JSON.stringify(data, null, 2)}`);
-    return data;
-  });
-});
 
 const client = new ApolloClient({
   link: ApolloLink.from([
@@ -35,9 +21,8 @@ const client = new ApolloClient({
         );
       if (networkError) console.log(`[Network error]: ${networkError}`);
     }),
-    consoleLink,
     new DeferLink(),
-    new WebSocketLink(subClient),
+    createHttpLink({ uri: 'http://localhost:4000/graphql' }),
   ]),
   cache: new InMemoryCache(),
 });
@@ -50,6 +35,9 @@ const query = gql`
       friends @defer {
         id
         name @defer
+        friends {
+          name
+        }
       }
     }
   }
