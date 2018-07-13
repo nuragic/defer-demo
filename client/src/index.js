@@ -2,13 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 import { createHttpLink } from 'apollo-link-http';
-import { ApolloProvider, Subscription } from 'react-apollo';
+import { ApolloProvider, Query } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { onError } from 'apollo-link-error';
 import { ApolloLink } from 'apollo-link';
 import gql from 'graphql-tag';
-import DeferLink from './DeferLink';
 
 const client = new ApolloClient({
   link: ApolloLink.from([
@@ -21,26 +20,27 @@ const client = new ApolloClient({
         );
       if (networkError) console.log(`[Network error]: ${networkError}`);
     }),
-    new DeferLink(),
     createHttpLink({ uri: 'http://localhost:4000/graphql' }),
   ]),
   cache: new InMemoryCache(),
 });
 
-const query = gql`
-  query DeferredQuery {
+const queryString = `query DeferredQuery {
     hero {
       id
       name
+      secretBackstory
       friends @defer {
         id
         name @defer
-        friends {
-          name
-        }
+        secretBackstory
       }
     }
   }
+`;
+
+const query = gql`
+  ${queryString}
 `;
 
 const App = () => (
@@ -48,32 +48,26 @@ const App = () => (
     <div style={{ paddingLeft: 10, paddingRight: 10 }}>
       <h2>Upcoming: Apollo @defer support 🚀</h2>
       <h3>Query</h3>
-      <pre>{`
-query DeferredQuery {
-  hero {
-    id
-    name
-    friends @defer {
-      id
-      name @defer
-    }
-  }
-}`}</pre>
+      <pre>{queryString}</pre>
       <hr />
       <h3>Response</h3>
-      <Subscription subscription={query}>
+      <Query query={query} errorPolicy="ignore">
         {({ loading, error, data }) => {
+          const divs = [];
           if (loading) return 'loading...';
+          if (data) {
+            divs.push(<pre key="data">{JSON.stringify(data, null, 2)}</pre>);
+          }
           if (error) {
-            return (
-              <pre style={{ color: 'red' }}>
+            divs.push(
+              <pre key="error" style={{ color: 'red' }}>
                 {JSON.stringify(error, null, 2)}
               </pre>
             );
           }
-          return <pre>{JSON.stringify(data, null, 2)}</pre>;
+          return divs;
         }}
-      </Subscription>
+      </Query>
     </div>
   </ApolloProvider>
 );

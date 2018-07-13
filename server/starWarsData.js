@@ -26,7 +26,7 @@ const vader = {
 const luke = {
   type: 'Human',
   id: '1000',
-  name: () => delay('Luke Skywalker', 3000),
+  name: () => delay('Luke Skywalker', 1000),
   friends: ['1002', '1003', '2000', '2001'],
   appearsIn: [4, 5, 6],
   homePlanet: 'Tatooine',
@@ -40,7 +40,7 @@ const luke = {
 const han = {
   type: 'Human',
   id: '1002',
-  name: () => delay('Han Solo', 1000),
+  name: () => delay('Han Solo', 500),
   friends: ['1000', '1003', '2001'],
   appearsIn: [4, 5, 6],
   soulmate: {
@@ -59,7 +59,7 @@ const han = {
 const leia = {
   type: 'Human',
   id: '1003',
-  name: () => delay('Leia Organa', 1000),
+  name: () => delay('Leia Organa', 200),
   friends: ['1000', '1002', '2000', '2001'],
   appearsIn: [4, 5, 6],
   homePlanet: 'Alderaan',
@@ -124,7 +124,7 @@ function getCharacter(id) {
  */
 function getFriends(character) {
   // Notice that GraphQL accepts Arrays of Promises.
-  return delay(character.friends.map(id => getCharacter(id)), 2000);
+  return delay(character.friends.map(id => getCharacter(id)), 1000);
 }
 
 /**
