@@ -26,15 +26,15 @@ const vader = {
 const luke = {
   type: 'Human',
   id: '1000',
-  name: () => delay('Luke Skywalker', 1000),
+  name: () => delay('Luke Skywalker', 500),
   friends: ['1002', '1003', '2000', '2001'],
   appearsIn: [4, 5, 6],
   homePlanet: 'Tatooine',
   soulmate: vader,
-  weapon: {
+  weapon: () => delay({
     name: 'Light Saber',
-    strength: 'High',
-  },
+    strength: () => delay('High', 2000),
+  }, 1500),
 };
 
 const han = {

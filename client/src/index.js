@@ -8,6 +8,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { onError } from 'apollo-link-error';
 import { ApolloLink } from 'apollo-link';
 import gql from 'graphql-tag';
+import { CharacterCard } from './Components';
 
 const client = new ApolloClient({
   link: ApolloLink.from([
@@ -26,14 +27,16 @@ const client = new ApolloClient({
 });
 
 const queryString = `query DeferredQuery {
-    hero {
+    human(id: "1000") {
       id
-      name
-      secretBackstory
+      name @defer
       friends @defer {
         id
         name @defer
-        secretBackstory
+      }
+      weapon @defer {
+        name
+        strength @defer
       }
     }
   }
@@ -51,21 +54,30 @@ const App = () => (
       <pre>{queryString}</pre>
       <hr />
       <h3>Response</h3>
-      <Query query={query} errorPolicy="ignore">
-        {({ loading, error, data }) => {
-          const divs = [];
+      <Query query={query} errorPolicy="all">
+        {({ loading, error, data, loadingStateMap }) => {
+          console.log(
+            `loadingStateMap: ${JSON.stringify(loadingStateMap, null, 2)}`
+          );
           if (loading) return 'loading...';
-          if (data) {
-            divs.push(<pre key="data">{JSON.stringify(data, null, 2)}</pre>);
-          }
-          if (error) {
-            divs.push(
-              <pre key="error" style={{ color: 'red' }}>
-                {JSON.stringify(error, null, 2)}
-              </pre>
-            );
-          }
-          return divs;
+          return (
+            <div>
+              {data ? (
+                <CharacterCard
+                  characterLoadingState={loadingStateMap.human}
+                  character={data.human}
+                />
+              ) : null}
+              {data ? (
+                <pre key="data">{JSON.stringify(data, null, 2)}</pre>
+              ) : null}
+              {error ? (
+                <pre key="error" style={{ color: 'red' }}>
+                  {JSON.stringify(error, null, 2)}
+                </pre>
+              ) : null}
+            </div>
+          );
         }}
       </Query>
     </div>
