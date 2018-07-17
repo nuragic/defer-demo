@@ -1,41 +1,53 @@
 import React from 'react';
 
-const borderStyle = { borderStyle: 'solid', borderWidth: 1, padding: 5, marginBottom: 5 };
+const borderStyle = {
+  borderStyle: 'solid',
+  borderWidth: 1,
+  padding: 5,
+  marginBottom: 5,
+};
 
-export const Weapon = ({ weapon, weaponLoadingState }) => (
+export const Weapon = ({ weapon, loadingState }) => (
   <div>
-    <p>Name: {weapon.name}</p>
+    <p>Name: {loadingState.name._isLoaded ? weapon.name : '...'}</p>
     <p>
-      Strength: {weaponLoadingState.children.strength.loading ? '...' : weapon.strength}{' '}
+      Strength:{' '}
+      {loadingState.strength._isLoaded ? weapon.strength : '...' }
     </p>
   </div>
 );
 
-export const CharacterCard = ({ character, characterLoadingState }) => (
+export const CharacterCard = ({ character, loadingState }) => (
   <div style={borderStyle}>
     <p>ID: {character.id}</p>
     <p>
       Name:{' '}
-      {characterLoadingState.children.name.loading ? '...' : character.name}
+      {loadingState.name._isLoaded ? character.name : '...'}
     </p>
+
     <div style={borderStyle}>
-      {characterLoadingState.children.weapon.loading ? (
-        'loading weapon...'
-      ) : (
+      {loadingState.friends._isLoaded
+        ? character.friends.map((friend, i) => (
+          <p key={friend.id}>
+            {friend.id}:{' '}
+            {loadingState.friends[i].name._isLoaded
+              ? friend.name
+              : '...'}
+          </p>
+        ))
+        : 'loading friends...'
+      }
+    </div>
+
+    <div style={borderStyle}>
+      {loadingState.weapon._isLoaded ? (
         <Weapon
           weapon={character.weapon}
-          weaponLoadingState={characterLoadingState.children.weapon}
+          loadingState={loadingState.weapon}
         />
+      ) : (
+        'loading weapon...'
       )}
-    </div>
-    <div style={borderStyle}>
-      {characterLoadingState.children.friends.loading
-        ? 'loading friends...'
-        : character.friends.map(friend => (
-            <p key={friend.id}>
-              {friend.id}: {friend.name},{' '}
-            </p>
-          ))}
     </div>
   </div>
 );

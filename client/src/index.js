@@ -26,7 +26,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-const queryString = `query DeferredQuery {
+const deferredQueryString = `query DeferredQuery {
     human(id: "1000") {
       id
       name @defer
@@ -35,36 +35,46 @@ const queryString = `query DeferredQuery {
         name @defer
       }
       weapon @defer {
-        name
+        name 
         strength @defer
       }
     }
   }
 `;
 
+const queryString = `query NormalQuery {
+  hero {
+    id
+    name
+    friends {
+      name
+    }
+  }
+}`
+
 const query = gql`
-  ${queryString}
+  ${deferredQueryString}
 `;
 
 const App = () => (
   <ApolloProvider client={client}>
     <div style={{ paddingLeft: 10, paddingRight: 10 }}>
-      <h2>Upcoming: Apollo @defer support 🚀</h2>
+      <h2>Apollo @defer Support Demo 🚀</h2>
       <h3>Query</h3>
-      <pre>{queryString}</pre>
+      <pre>{deferredQueryString}</pre>
       <hr />
       <h3>Response</h3>
       <Query query={query} errorPolicy="all">
-        {({ loading, error, data, loadingStateMap }) => {
+        {({ loading, error, data, loadingState }) => {
           console.log(
-            `loadingStateMap: ${JSON.stringify(loadingStateMap, null, 2)}`
+            `loadingState: ${JSON.stringify(loadingState, null, 2)}`
           );
           if (loading) return 'loading...';
           return (
             <div>
               {data ? (
                 <CharacterCard
-                  characterLoadingState={loadingStateMap.human}
+                  loadingState={loadingState.human}
                   character={data.human}
                 />
               ) : null}

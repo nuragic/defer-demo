@@ -33,14 +33,14 @@ const luke = {
   soulmate: vader,
   weapon: () => delay({
     name: 'Light Saber',
-    strength: () => delay('High', 2000),
+    strength: () => delay('High', 2200),
   }, 1500),
 };
 
 const han = {
   type: 'Human',
   id: '1002',
-  name: () => delay('Han Solo', 500),
+  name: () => delay('Han Solo', 800),
   friends: ['1000', '1003', '2001'],
   appearsIn: [4, 5, 6],
   soulmate: {
@@ -59,7 +59,7 @@ const han = {
 const leia = {
   type: 'Human',
   id: '1003',
-  name: () => delay('Leia Organa', 200),
+  name: () => delay('Leia Organa', 1200),
   friends: ['1000', '1002', '2000', '2001'],
   appearsIn: [4, 5, 6],
   homePlanet: 'Alderaan',
@@ -84,7 +84,7 @@ const humanData = {
 const threepio = {
   type: 'Droid',
   id: '2000',
-  name: 'C-3PO',
+  name: () => delay(null, 1500),
   friends: ['1000', '1002', '1003', '2001'],
   appearsIn: [4, 5, 6],
   primaryFunction: 'Protocol',
