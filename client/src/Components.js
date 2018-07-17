@@ -16,24 +16,67 @@ export const Weapon = ({ weapon, loadingState }) => (
 
 export const CharacterCard = ({ character, loadingState }) => (
   <div style={borderStyle}>
+    <p>
+      <strong>Stats</strong>
+    </p>
     <p>ID: {character.id}</p>
     <p>Name: {loadingState.name ? character.name : '...'}</p>
 
     <div style={borderStyle}>
-      {loadingState.friends
-        ? character.friends.map((friend, i) => (
+      {loadingState.friends ? (
+        <div>
+          <p>
+            <strong>Friends</strong>
+          </p>
+          {character.friends.map((friend, i) => (
             <p key={friend.id}>
               {friend.id}: {loadingState.friends[i].name ? friend.name : '...'}
             </p>
-          ))
-        : 'loading friends...'}
+          ))}
+        </div>
+      ) : (
+        'loading friends...'
+      )}
     </div>
 
     <div style={borderStyle}>
       {loadingState.weapon ? (
-        <Weapon weapon={character.weapon} loadingState={loadingState.weapon} />
+        <div>
+          <p>
+            <strong>Weapon</strong>
+          </p>
+          <Weapon
+            weapon={character.weapon}
+            loadingState={loadingState.weapon}
+          />
+        </div>
       ) : (
         'loading weapon...'
+      )}
+    </div>
+
+    <div style={borderStyle}>
+      {loadingState.soulmate ? (
+        <div>
+          <p>
+            <strong>Soulmate</strong>
+          </p>
+          <p>Name: {character.soulmate.name}</p>
+          <p>
+            Weapon Name:{' '}
+            {loadingState.soulmate.weapon.name
+              ? character.soulmate.weapon.name
+              : '...'}
+          </p>
+          <p>
+            Weapon Strength:{' '}
+            {loadingState.soulmate.weapon.strength
+              ? character.soulmate.weapon.strength
+              : '...'}
+          </p>
+        </div>
+      ) : (
+        'loading soulmate...'
       )}
     </div>
   </div>

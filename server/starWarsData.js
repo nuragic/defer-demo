@@ -21,6 +21,10 @@ const vader = {
   friends: ['1004'],
   appearsIn: [4, 5, 6],
   homePlanet: 'Tatooine',
+  weapon: () => delay({
+    name: 'Dark Light Saber',
+    strength: () => delay('Ultimate', 2200),
+  }, 1500),
 };
 
 const luke = {

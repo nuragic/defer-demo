@@ -50,7 +50,7 @@ const { GraphQLDeferDirective } = require('apollo-server');
  *   friends: [Character]
  *   appearsIn: [Episode]
  *   homePlanet: String
- *   soulmate: Character! # Everyone has a soulmate <3
+ *   soulmate: Character # Everyone has a soulmate <3
  *   weapon: Weapon
  * }
  *
@@ -200,7 +200,7 @@ const humanType = new GraphQLObjectType({
       },
     },
     soulmate: {
-      type: new GraphQLNonNull(characterInterface),
+      type: characterInterface,
       description: 'Everyone has a soulmate and should error otherwise.',
     },
     weapon: {

@@ -38,6 +38,15 @@ const deferredQueryString = `query DeferredQuery {
         name 
         strength @defer
       }
+      soulmate @defer {
+        name
+        ... on Human {
+          weapon {
+            name
+            strength @defer
+          }
+        }
+      }
     }
   }
 `;
@@ -50,7 +59,7 @@ const queryString = `query NormalQuery {
       name
     }
   }
-}`
+}`;
 
 const query = gql`
   ${deferredQueryString}
@@ -66,9 +75,7 @@ const App = () => (
       <h3>Response</h3>
       <Query query={query} errorPolicy="all">
         {({ loading, error, data, loadingState }) => {
-          console.log(
-            `loadingState: ${JSON.stringify(loadingState, null, 2)}`
-          );
+          console.log(`loadingState: ${JSON.stringify(loadingState, null, 2)}`);
           if (loading) return 'loading...';
           return (
             <div>
