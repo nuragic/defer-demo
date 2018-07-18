@@ -26,13 +26,16 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+const fragments = `fragment BasicInfo on Character {
+  id
+  name @defer
+}`
+
 const deferredQueryString = `query DeferredQuery {
     human(id: "1000") {
-      id
-      name @defer
+      ...BasicInfo
       friends @defer {
-        id
-        name @defer
+        ...BasicInfo
       }
       weapon @defer {
         name 
@@ -63,6 +66,7 @@ const queryString = `query NormalQuery {
 
 const query = gql`
   ${deferredQueryString}
+  ${fragments}
 `;
 
 const App = () => (
@@ -71,6 +75,7 @@ const App = () => (
       <h2>Apollo @defer Support Demo 🚀</h2>
       <h3>Query</h3>
       <pre>{deferredQueryString}</pre>
+      <pre>{fragments}</pre>
       <hr />
       <h3>Response</h3>
       <Query query={query} errorPolicy="all">
