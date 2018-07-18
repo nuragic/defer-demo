@@ -41,40 +41,61 @@ export const CharacterCard = ({ character, loadingState }) => (
 
     <div style={borderStyle}>
       {loadingState.weapon ? (
-        <div>
-          <p>
-            <strong>Weapon</strong>
-          </p>
-          <Weapon
-            weapon={character.weapon}
-            loadingState={loadingState.weapon}
-          />
-        </div>
+        character.weapon ? (
+          <div>
+            <p>
+              <strong>Weapon</strong>
+            </p>
+            <Weapon
+              weapon={character.weapon}
+              loadingState={loadingState.weapon}
+            />
+          </div>
+        ) : (
+          'No Weapon'
+        )
       ) : (
         'loading weapon...'
       )}
     </div>
 
+    {/*
+      With full access to nested loading states on deferred fields,
+      we are able to distinguish whether a field is "pending" or actually "null"
+      However, the boilerplate to check 3 possible states can get tiresome.
+      Any ideas around this would be great!
+     */}
+
     <div style={borderStyle}>
       {loadingState.soulmate ? (
-        <div>
-          <p>
-            <strong>Soulmate</strong>
-          </p>
-          <p>Name: {character.soulmate.name}</p>
-          <p>
-            Weapon Name:{' '}
-            {loadingState.soulmate.weapon.name
-              ? character.soulmate.weapon.name
-              : '...'}
-          </p>
-          <p>
-            Weapon Strength:{' '}
-            {loadingState.soulmate.weapon.strength
-              ? character.soulmate.weapon.strength
-              : '...'}
-          </p>
-        </div>
+        character.soulmate ? (
+          <div>
+            <p>
+              <strong>Soulmate</strong>
+            </p>
+            <p>Name: {character.soulmate.name}</p>
+            {character.soulmate.weapon ? (
+              <div>
+                <p>
+                  Weapon Name:{' '}
+                  {loadingState.soulmate.weapon.name
+                    ? character.soulmate.weapon.name
+                    : '...'}
+                </p>
+                <p>
+                  Weapon Strength:{' '}
+                  {loadingState.soulmate.weapon.strength
+                    ? character.soulmate.weapon.strength
+                    : '...'}
+                </p>
+              </div>
+            ) : (
+              'No Weapon'
+            )}
+          </div>
+        ) : (
+          'None </3'
+        )
       ) : (
         'loading soulmate...'
       )}

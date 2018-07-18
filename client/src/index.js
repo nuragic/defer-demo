@@ -21,6 +21,7 @@ const client = new ApolloClient({
         );
       if (networkError) console.log(`[Network error]: ${networkError}`);
     }),
+    // Using a HttpLink that is updated to deal with multipart responses
     createHttpLink({ uri: 'http://localhost:4000/graphql' }),
   ]),
   cache: new InMemoryCache(),
@@ -29,7 +30,7 @@ const client = new ApolloClient({
 const fragments = `fragment BasicInfo on Character {
   id
   name @defer
-}`
+}`;
 
 const deferredQueryString = `query DeferredQuery {
     human(id: "1000") {
@@ -42,7 +43,7 @@ const deferredQueryString = `query DeferredQuery {
         strength @defer
       }
       soulmate @defer {
-        name
+        ...BasicInfo
         ... on Human {
           weapon {
             name
@@ -53,16 +54,6 @@ const deferredQueryString = `query DeferredQuery {
     }
   }
 `;
-
-const queryString = `query NormalQuery {
-  hero {
-    id
-    name
-    friends {
-      name
-    }
-  }
-}`;
 
 const query = gql`
   ${deferredQueryString}
@@ -79,6 +70,11 @@ const App = () => (
       <hr />
       <h3>Response</h3>
       <Query query={query} errorPolicy="all">
+        {/* 
+          A new property loadingState is exposed on the Query component, 
+          that contains field level loading states. This will be undefined
+          if your query does not contain @defer.
+        */}
         {({ loading, error, data, loadingState }) => {
           console.log(`loadingState: ${JSON.stringify(loadingState, null, 2)}`);
           if (loading) return 'loading...';

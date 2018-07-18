@@ -25,6 +25,7 @@ const vader = {
     name: 'Dark Light Saber',
     strength: () => delay('Ultimate', 2200),
   }, 1500),
+  soulmate: () => delay(null, 1000)
 };
 
 const luke = {
