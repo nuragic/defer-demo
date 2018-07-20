@@ -1,9 +1,9 @@
 const { ApolloServer } = require('apollo-server');
 
-const { StarWarsSchema } = require('./starWarsSchema');
+const { typeDefs, resolvers } = require('./newsFeedSchema');
 
 const server = new ApolloServer({
-  schema: StarWarsSchema
+  typeDefs, resolvers
 });
 
 server.listen().then(({ url }) => {
