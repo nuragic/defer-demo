@@ -5,8 +5,7 @@ import { ApolloProvider, Query } from 'react-apollo';
 import ApolloClient from 'apollo-boost';
 import gql from 'graphql-tag';
 import './index.css';
-import RawResponse from './components/RawResponse';
-import { NewsFeed, FastNewsFeed } from './components/NewsFeed';
+import { NewsFeed } from './components/NewsFeed';
 import { LoaderLarge } from './components/Loaders';
 const client = new ApolloClient({ uri: 'http://localhost:4000/graphql' });
 
@@ -40,7 +39,7 @@ const query = gql`
 const queryWithDefer = gql`
   query NewsFeed {
     newsFeed {
-      stories @defer {
+      stories {
         id
         text
         comments @defer {
@@ -68,8 +67,7 @@ const App = () => (
   <ApolloProvider client={client}>
     <div>
       <div className="demo-title">
-        <span>🚀🚀🚀</span> Optimize page loads with @defer{' '}
-        <span>🚀🚀🚀</span>
+        <span>🚀🚀🚀</span> Optimize page loads with @defer <span>🚀🚀🚀</span>
       </div>
       <div className="demo-container row">
         {/* Before using defer */}
@@ -77,12 +75,14 @@ const App = () => (
         <div className="column">
           <div className="demo-subtitle">Without @defer</div>
           <Query query={query} errorPolicy="all">
-            {({ loading, error, data }) => {
+            {({ loading, error, data, loadingState }) => {
               if (loading) return <LoaderLarge />;
               return (
                 <div>
-                  {/*<RawResponse data={data} error={error} />*/}
-                  <NewsFeed newsFeed={data.newsFeed} />
+                  <NewsFeed
+                    newsFeed={data.newsFeed}
+                    loadingState={loadingState && loadingState.newsFeed}
+                  />
                 </div>
               );
             }}
@@ -92,24 +92,20 @@ const App = () => (
         {/* After using defer */}
 
         <div className="column">
-          <div className="demo-subtitle">Without @defer</div>
+          <div className="demo-subtitle">With @defer</div>
           <Query query={queryWithDefer} errorPolicy="all">
             {/* A new property loadingState is exposed on the Query component,
-                that contains field level loading states. This will be undefined
-                if your query does not contain @defer.
-            */}
+        that contains field level loading states. This will be undefined
+        if your query does not contain @defer.
+        */}
 
             {({ loading, error, data, loadingState }) => {
-              console.log(
-                `loadingState: ${JSON.stringify(loadingState, null, 2)}`
-              );
               if (loading) return <LoaderLarge />;
               return (
                 <div>
-                  {/*<RawResponse data={data} error={error} />*/}
-                  <FastNewsFeed
+                  <NewsFeed
                     newsFeed={data.newsFeed}
-                    loadingState={loadingState.newsFeed}
+                    loadingState={loadingState && loadingState.newsFeed}
                   />
                 </div>
               );

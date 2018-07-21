@@ -1,8 +1,6 @@
 const { gql } = require('apollo-server');
 
 const typeDefs = gql`
-  directive @defer(shouldDefer: Boolean = true) on FIELD
-
   type NewsFeed {
     stories: [Story]
     recommendedForYou: [RecommendedContent]
@@ -82,7 +80,7 @@ const rec2 = {
 const commentData = {
   '1001': {
     id: 1001,
-    text: 'Wow!',
+    text: 'Wow! Incredible stuff!',
   },
   '1002': {
     id: 1002,

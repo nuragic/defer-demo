@@ -25,7 +25,7 @@ body {
 }
 
 .demo-container {
-  padding: 20px;
+  padding: 0 20px;
 }
 
 .loader {
@@ -80,5 +80,3 @@ pre {
 .story .comments .comment {
   padding-left: 20px;
 }
-
-
