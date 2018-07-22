@@ -68,13 +68,11 @@ const story5 = {
 const rec1 = {
   story: story4,
   matchScore: 89,
-  friendsWhoLiked: ['Tom', 'Mitch'],
 };
 
 const rec2 = {
   story: story5,
   matchScore: 92,
-  friendsWhoLiked: ['Bobby', 'Martin'],
 };
 
 const commentData = {

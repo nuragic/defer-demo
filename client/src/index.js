@@ -9,55 +9,54 @@ import { NewsFeed } from './components/NewsFeed';
 import { LoaderLarge } from './components/Loaders';
 const client = new ApolloClient({ uri: 'http://localhost:4000/graphql' });
 
+/**
+ * The code example below shows just how easy it is to add
+ * @defer into an existing query - and you can preview
+ * its results side by side. Feel free to try adding @defer
+ * to different fields to see its effect on loading time.
+ */
+
+
+const fragments = gql`
+  fragment StoryDetail on Story {
+    id
+    text
+    comments @defer {
+      id
+      text
+    }
+  }
+`
+
 const query = gql`
+  ${fragments}
   query NewsFeed {
     newsFeed {
       stories {
-        id
-        text
-        comments {
-          id
-          text
-        }
+        ...StoryDetail
       }
       recommendedForYou {
         story {
-          id
-          text
-          comments {
-            id
-            text
-          }
+          ...StoryDetail
         }
         matchScore
-        friendsWhoLiked
       }
     }
   }
 `;
 
 const queryWithDefer = gql`
+  ${fragments}
   query NewsFeed {
     newsFeed {
       stories {
-        id
-        text
-        comments @defer {
-          id
-          text
-        }
+        ...StoryDetail
       }
       recommendedForYou @defer {
         story {
-          id
-          text
-          comments @defer {
-            id
-            text
-          }
+          ...StoryDetail
         }
         matchScore
-        friendsWhoLiked
       }
     }
   }
@@ -70,6 +69,7 @@ const App = () => (
         <span>🚀🚀🚀</span> Optimize page loads with @defer <span>🚀🚀🚀</span>
       </div>
       <div className="demo-container row">
+
         {/* Before using defer */}
 
         <div className="column">
