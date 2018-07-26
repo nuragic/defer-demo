@@ -29,15 +29,24 @@ const fragments = gql`
 `;
 
 const query = gql`
-  ${fragments}
   query NewsFeed {
     newsFeed {
       stories {
-        ...StoryDetail
+        id
+        text
+        comments {
+          id
+          text
+        }
       }
       recommendedForYou {
         story {
-          ...StoryDetail
+          id
+          text
+          comments {
+            id
+            text
+          }
         }
         matchScore
       }
