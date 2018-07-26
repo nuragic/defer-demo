@@ -7,6 +7,7 @@ import gql from 'graphql-tag';
 import './index.css';
 import { NewsFeed } from './components/NewsFeed';
 import { LoaderLarge } from './components/Loaders';
+import RawResponse from './components/RawResponse';
 const client = new ApolloClient({ uri: 'http://localhost:4000/graphql' });
 
 /**
@@ -15,7 +16,6 @@ const client = new ApolloClient({ uri: 'http://localhost:4000/graphql' });
  * its results side by side. Feel free to try adding @defer
  * to different fields to see its effect on loading time.
  */
-
 
 const fragments = gql`
   fragment StoryDetail on Story {
@@ -26,7 +26,7 @@ const fragments = gql`
       text
     }
   }
-`
+`;
 
 const query = gql`
   ${fragments}
@@ -69,7 +69,6 @@ const App = () => (
         <span>🚀🚀🚀</span> Optimize page loads with @defer <span>🚀🚀🚀</span>
       </div>
       <div className="demo-container row">
-
         {/* Before using defer */}
 
         <div className="column">
@@ -77,13 +76,12 @@ const App = () => (
           <Query query={query} errorPolicy="all">
             {({ loading, error, data, loadingState }) => {
               if (loading) return <LoaderLarge />;
+              if (error) return <RawResponse error={error}/>
               return (
-                <div>
-                  <NewsFeed
-                    newsFeed={data.newsFeed}
-                    loadingState={loadingState && loadingState.newsFeed}
-                  />
-                </div>
+                <NewsFeed
+                  newsFeed={data.newsFeed}
+                  loadingState={loadingState && loadingState.newsFeed}
+                />
               );
             }}
           </Query>
@@ -101,13 +99,12 @@ const App = () => (
 
             {({ loading, error, data, loadingState }) => {
               if (loading) return <LoaderLarge />;
+              if (error) return <RawResponse error={error}/>
               return (
-                <div>
-                  <NewsFeed
-                    newsFeed={data.newsFeed}
-                    loadingState={loadingState && loadingState.newsFeed}
-                  />
-                </div>
+                <NewsFeed
+                  newsFeed={data.newsFeed}
+                  loadingState={loadingState && loadingState.newsFeed}
+                />
               );
             }}
           </Query>
