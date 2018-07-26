@@ -1,0 +1,19 @@
+{
+  "name": "server-micro",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "micro server.js -l tcp://localhost:4000"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server-micro": "^2.1.0-alpha.7",
+    "graphql": "^0.13.2",
+    "micro": "^9.3.2",
+    "micro-cors": "^0.1.0"
+  }
+}
