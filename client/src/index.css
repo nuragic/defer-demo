@@ -24,6 +24,10 @@ body {
   font-weight: bold;
 }
 
+.app-container {
+  padding: 20px;
+}
+
 .demo-container {
   padding: 0 20px;
 }
@@ -47,6 +51,17 @@ pre {
   width: 50vw;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a.nav {
+  display: block;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
 .newsFeed {
 }
 
@@ -61,14 +76,28 @@ pre {
 }
 
 .story {
+  cursor: pointer;
   background: whitesmoke;
   border-radius: 5px;
   padding: 20px;
   margin-bottom: 10px;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.story:hover {
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.15);
+  opacity: 1; /* show the hover shadow */
+}
+
+.story .title {
+  font-weight: bold;
 }
 
 .story .text {
-  font-weight: bold;
+  margin: 20px 0;
+  font-weight: normal;
+  font-family: serif;
+  white-space: pre-wrap;
 }
 
 .story .comments {

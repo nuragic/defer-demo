@@ -10,6 +10,7 @@
     "react-apollo": "^2.2.0-alpha.0",
     "react-dom": "^16.4.1",
     "react-loader-spinner": "^2.1.0",
+    "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
     "react-spring": "^5.4.2"
   },
@@ -18,5 +19,23 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "apollo": {
+    "schemas": {
+      "myPrimaryBackend": {
+        "endpoint": "http://localhost:4000/graphql"
+      }
+    },
+    "queries": [
+      {
+        "schema": "myPrimaryBackend",
+        "includes": [
+          "**/*.js"
+        ],
+        "excludes": [
+          "node_modules/**"
+        ]
+      }
+    ]
   }
 }

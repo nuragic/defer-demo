@@ -1,6 +1,7 @@
 import React from 'react';
 import { LoaderLarge, LoaderSmall } from './Loaders';
 import { Trail } from 'react-spring';
+import { Link } from 'react-router-dom';
 
 /**
  * If the query is deferred, an additional prop loadingState will be passed in
@@ -14,42 +15,46 @@ const Story = ({ story, loadingState }) => {
   if (loadingState) {
     // This component will check loadingState if it is passed it
     return (
-      <div className="story">
-        <div className="text">{story.text}</div>
-        <div className="comments">
-          {loadingState.comments ? (
-            story.comments ? (
-              story.comments.map(comment => (
-                <div className="comment" key={comment.id}>
-                  > {comment.text}
-                </div>
-              ))
+      <Link to={`/story/${story.id}`}>
+        <div className="story">
+          <div className="title">{story.title}</div>
+          <div className="comments">
+            {loadingState.comments ? (
+              story.comments ? (
+                story.comments.map(comment => (
+                  <div className="comment" key={comment.id}>
+                    > {comment.text}
+                  </div>
+                ))
+              ) : (
+                'No comments'
+              )
             ) : (
-              'No comments'
-            )
-          ) : (
-            <LoaderSmall />
-          )}
+              <LoaderSmall />
+            )}
+          </div>
         </div>
-      </div>
+      </Link>
     );
   } else {
     // This component will not check loadingState. If you do not need to
     // distinguish between "null" and "loading" states, the code can be less
     // verbose.
     return (
-      <div className="story">
-        <div className="text">{story.text}</div>
-        <div className="comments">
-          {story.comments
-            ? story.comments.map(comment => (
-                <div className="comment" key={comment.id}>
-                  > {comment.text}
-                </div>
-              ))
-            : 'No comments'}
+      <Link to={`/story/${story.id}`}>
+        <div className="story">
+          <div className="title">{story.title}</div>
+          <div className="comments">
+            {story.comments
+              ? story.comments.map(comment => (
+                  <div className="comment" key={comment.id}>
+                    > {comment.text}
+                  </div>
+                ))
+              : 'No comments'}
+          </div>
         </div>
-      </div>
+      </Link>
     );
   }
 };
