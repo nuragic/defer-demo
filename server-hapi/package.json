@@ -4,7 +4,7 @@
   "description": "",
   "main": "newsFeedSchema.js",
   "dependencies": {
-    "apollo-server-hapi": "^2.1.0-alpha.7",
+    "apollo-server-hapi": "^2.1.0-alpha.9",
     "graphql": "^0.13.2",
     "hapi": "^17.5.2"
   },
