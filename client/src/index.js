@@ -9,18 +9,26 @@ import StoryList from './components/StoryList';
 import StoryDetail from './components/StoryDetail';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-const client = new ApolloClient({ uri: 'http://localhost:4000/graphql' });
+const client = new ApolloClient({
+  uri: 'http://localhost:4000/graphql',
+  cacheRedirects: {
+    Query: {
+      story: (_, { id }, { getCacheKey }) =>
+        getCacheKey({ __typename: 'Story', id }),
+    },
+  },
+});
 
 const App = () => (
-  <Router>
-    <ApolloProvider client={client}>
+  <ApolloProvider client={client}>
+    <Router>
       <Switch>
         <Route exact path="/comparison" component={DeferComparison} />
         <Route exact path="/" component={StoryList} />
         <Route path="/story/:id" component={StoryDetail} />
       </Switch>
-    </ApolloProvider>
-  </Router>
+    </Router>
+  </ApolloProvider>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

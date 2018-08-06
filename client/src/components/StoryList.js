@@ -1,6 +1,6 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { ApolloProvider, Query } from 'react-apollo';
+import { Query } from 'react-apollo';
 import RawResponse from './RawResponse';
 import { NewsFeed } from './NewsFeed';
 import { LoaderLarge } from './Loaders';
