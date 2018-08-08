@@ -24,7 +24,6 @@ const StoryDetail = ({ match }) => (
     <Link className="nav" to="/">👈 Back</Link>
     <Query query={query} variables={{ id: match.params.id }}>
       {({ loading, error, data, loadingState, networkStatus }) => {
-        console.log({loading, loadingState, data, networkStatus})
         if (loading) return <LoaderLarge />;
         if (error) return <RawResponse error={error} />;
         const story = data.story;
